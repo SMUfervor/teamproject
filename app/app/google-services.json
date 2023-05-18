@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "473208672620",
+    "project_id": "taskapp-40531",
+    "storage_bucket": "taskapp-40531.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473208672620:android:727a5c1ab83c2afe4e6349",
+        "android_client_info": {
+          "package_name": "com.example.schedulemanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473208672620-p8kp72bsccephptg9it8an660sp0scij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7oDCI0uvv2m9MPvBzrb_xz82hNuvJjfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473208672620-p8kp72bsccephptg9it8an660sp0scij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
