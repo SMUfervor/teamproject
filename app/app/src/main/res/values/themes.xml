@@ -2,6 +2,9 @@
     <style name="CustomToolBar" parent="@style/Widget.AppCompat.Toolbar"><!--재목 색 변경-->
         <item name="titleTextColor">#000000</item>
     </style>
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">#0000FF</item>
+    </style>
     <style name="Theme.ScheduleManagement" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#ffffff</item> <!--제목 배경색 변경-->

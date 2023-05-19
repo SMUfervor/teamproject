@@ -3,6 +3,7 @@ package com.example.schedulemanagement
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -31,16 +32,17 @@ class MainActivity : AppCompatActivity() {
         recyclerView = viewBinding.mainRv
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.adapter = MainAdapter(myDataSet, this@MainActivity)
+        recyclerView.adapter = MainAdapter(myDataSet, this@MainActivity, this@MainActivity)
 
         viewBinding.mainPlus.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
             builder.setTitle("목록 이름을 입력해 주세요.")
 
             val editText = EditText(this)
             builder.setView(editText)
 
             builder.setPositiveButton("목록 추가") { dialog, which ->
+                // 목록 추가 버튼 클릭 시 동작
                 if (user != null) {
                     val userId = user.uid
                     val title = editText.text.toString()
@@ -49,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                     db.collection(userId)
                         .add(newList)
                         .addOnSuccessListener { documentReference ->
-                            // 문서 추가 성공 시 동작
                             val documentId = documentReference.id
                             newList.ID = documentId
                             db.collection(userId)
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                             recyclerView.adapter?.notifyDataSetChanged()
                         }
                         .addOnFailureListener { e ->
-                            // 문서 가져오기 실패 시 동작
                             Toast.makeText(this, "목록 추가 실패: $e", Toast.LENGTH_SHORT)
                                 .show()
                         }
@@ -67,10 +67,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             builder.setNegativeButton("취소") { dialog, which ->
+                // 취소 버튼 클릭 시 동작
                 Toast.makeText(this, "목록 추가가 취소되었습니다.", Toast.LENGTH_SHORT).show()
             }
 
-            builder.show()
+            val dialog = builder.create()
+            dialog.show()
         }
 
         if (user != null) {

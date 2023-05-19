@@ -1,9 +1,13 @@
 package com.example.schedulemanagement
 
+import android.content.Context
+import android.content.Intent
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedulemanagement.MainAdapter.viewHolder
 import com.example.schedulemanagement.databinding.MainlistBinding
@@ -12,7 +16,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MainAdapter(
     private val MainList: MutableList<com.example.schedulemanagement.MainList>,
-    private val activity: MainActivity) : RecyclerView.Adapter<viewHolder>() {
+    private val activity: MainActivity,
+    private val context: Context
+) : RecyclerView.Adapter<viewHolder>() {
 
     private val db = FirebaseFirestore.getInstance()
     private val user = FirebaseAuth.getInstance().currentUser
@@ -22,7 +28,7 @@ class MainAdapter(
             binding.mainTitle.text = list.title
 
             binding.root.setOnLongClickListener {
-                val builder = AlertDialog.Builder(activity)
+                val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogTheme))
                 builder.setTitle("목록을 삭제하시겠습니까?")
                 builder.setPositiveButton("삭제") { dialog, which ->
                     if (user != null){
@@ -49,7 +55,9 @@ class MainAdapter(
             }
 
             binding.root.setOnClickListener{
-                Toast.makeText(activity, "${MainList[adapterPosition].title}\n${MainList[adapterPosition].ID}\n${MainList[adapterPosition].date}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, ListActivity::class.java)
+                intent.putExtra("id", MainList[adapterPosition].ID)
+                context.startActivity(intent)
             }
         }
     }
