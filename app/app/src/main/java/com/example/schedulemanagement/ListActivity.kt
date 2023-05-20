@@ -1,5 +1,6 @@
 package com.example.schedulemanagement
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.schedulemanagement.databinding.ActivityListBinding
@@ -17,5 +18,10 @@ class ListActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         viewBinding = ActivityListBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        viewBinding.btnTask.setOnClickListener {
+            val intent = Intent(this, WriteActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteActivity">
+
+    <EditText
+        android:id="@+id/tasktitle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="제목"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/taskdetail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="세부내용"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tasktitle" />
+
+    <NumberPicker
+        android:id="@+id/num_pri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/btn_pri"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="@+id/btn_pri"
+        app:layout_constraintTop_toBottomOf="@+id/text_y" />
+
+    <TextView
+        android:id="@+id/text_y"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="70dp"
+        android:text="년"
+        android:textColor="#000000"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskdetail" />
+
+    <TextView
+        android:id="@+id/text_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="115dp"
+        android:text="월"
+        android:textColor="#000000"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_y"
+        app:layout_constraintTop_toTopOf="@+id/text_y" />
+
+    <TextView
+        android:id="@+id/text_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="일"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_y"
+        app:layout_constraintTop_toTopOf="@+id/text_y" />
+
+    <TextView
+        android:id="@+id/text_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="145dp"
+        android:text="시간"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_y"
+        app:layout_constraintTop_toTopOf="@+id/text_y" />
+
+    <NumberPicker
+        android:id="@+id/num_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/num_m"
+        app:layout_constraintTop_toTopOf="@+id/num_h" />
+
+    <NumberPicker
+        android:id="@+id/alram_y"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/alram_m"
+        app:layout_constraintTop_toTopOf="@+id/alram_h" />
+
+    <NumberPicker
+        android:id="@+id/num_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_h" />
+
+    <NumberPicker
+        android:id="@+id/alram_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_h" />
+
+    <NumberPicker
+        android:id="@+id/num_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/num_d"
+        app:layout_constraintTop_toTopOf="@+id/num_h" />
+
+    <NumberPicker
+        android:id="@+id/alram_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/alram_d"
+        app:layout_constraintTop_toTopOf="@+id/alram_h" />
+
+    <NumberPicker
+        android:id="@+id/num_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/num_h"
+        app:layout_constraintTop_toTopOf="@+id/num_h" />
+
+    <NumberPicker
+        android:id="@+id/alram_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/alram_h"
+        app:layout_constraintTop_toTopOf="@+id/alram_h" />
+
+    <android.widget.Button
+        android:id="@+id/btn_pri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+        android:background="@drawable/button_shape"
+        android:text="우선순위\n설정"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskdetail" />
+
+    <android.widget.Button
+        android:id="@+id/btn_deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+        android:background="@drawable/button_shape"
+        android:text="마감일\n설정"
+        app:layout_constraintEnd_toStartOf="@+id/btn_alram"
+        app:layout_constraintStart_toEndOf="@+id/btn_pri"
+        app:layout_constraintTop_toBottomOf="@+id/taskdetail" />
+
+    <android.widget.Button
+        android:id="@+id/btn_alram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="29dp"
+        android:alpha="0.5"
+        android:background="@drawable/button_shape"
+        android:text="알림\n\설정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_deadline" />
+
+    <android.widget.Button
+        android:id="@+id/btn_pluse"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_shape"
+        android:text="작업 추가"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.widget.Button
+        android:id="@+id/btn_priX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_shape"
+        android:text="우선순위\n취소"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/num_pri"
+        app:layout_constraintStart_toStartOf="@+id/num_pri"
+        app:layout_constraintTop_toBottomOf="@+id/num_pri" />
+
+    <android.widget.Button
+        android:id="@+id/btn_deadlineX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_shape"
+        android:text="취소"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/num_m"
+        app:layout_constraintStart_toStartOf="@+id/num_y"
+        app:layout_constraintTop_toBottomOf="@+id/num_y" />
+
+    <android.widget.Button
+        android:id="@+id/btn_alramX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_shape"
+        android:text="최소"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/alram_m"
+        app:layout_constraintStart_toStartOf="@+id/alram_y"
+        app:layout_constraintTop_toBottomOf="@+id/alram_d" />
+
+    <android.widget.Button
+        android:id="@+id/btn_deadlineOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:text="설정"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_deadlineX"
+        app:layout_constraintEnd_toEndOf="@+id/num_h"
+        app:layout_constraintStart_toEndOf="@+id/num_m" />
+
+    <android.widget.Button
+        android:id="@+id/btn_alramOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:text="설정"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/alram_h"
+        app:layout_constraintStart_toEndOf="@+id/alram_m"
+        app:layout_constraintTop_toTopOf="@+id/btn_alramX" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
