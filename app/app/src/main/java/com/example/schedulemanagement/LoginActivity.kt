@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit  var checkbox : CheckBox
+
     private val startMainActivityForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
