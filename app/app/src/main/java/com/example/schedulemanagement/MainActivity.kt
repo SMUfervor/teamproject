@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
             builder.setView(editText)
 
             builder.setPositiveButton("목록 추가") { dialog, which ->
-                // 목록 추가 버튼 클릭 시 동작
                 if (user != null) {
                     val userId = user.uid
                     val title = editText.text.toString()
@@ -67,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             builder.setNegativeButton("취소") { dialog, which ->
-                // 취소 버튼 클릭 시 동작
                 Toast.makeText(this, "목록 추가가 취소되었습니다.", Toast.LENGTH_SHORT).show()
             }
 

@@ -1,48 +1,69 @@
 package com.example.schedulemanagement
 
-import android.renderscript.RenderScript
+import android.content.Context
+import android.content.Intent
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedulemanagement.databinding.TasklistBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
 
-class ListAdapter (
-    private val TaskList: MutableList<com.example.schedulemanagement.TaskList>,
-    private val activity: ListActivity) : RecyclerView.Adapter<ListAdapter.viewHolder>() {
+class ListAdapter (private val TaskList : MutableList<com.example.schedulemanagement.TaskList>,
+                   private val activity: ListActivity,
+                   private val context: Context
+) : RecyclerView.Adapter<ListAdapter.viewHolder>() {
 
     private val db = FirebaseFirestore.getInstance()
     private val user = FirebaseAuth.getInstance().currentUser
 
     inner class viewHolder(private val binding: TasklistBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(list : com.example.schedulemanagement.TaskList){
-            val alarmdate = list.alarm
-            val deaddate = list.deadline
-            val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
-            val alarmString = dateFormat.format(alarmdate)
-            val deadString = dateFormat.format(deaddate)
             val priority = list.priority
             binding.mainTitle.text = list.title
-            if(alarmString=="2200.05.25.01"){
-                binding.textAlarm.visibility = View.GONE
-            }
-            else{
-                binding.textAlarm.text = "알림일 : ${alarmString}"
-            }
-            if(deadString=="2200.05.25.01"){
-                binding.textDeadline.visibility = View.GONE
-            }
-            else{
-                binding.textDeadline.text = "마감일 : ${deadString}"
-            }
+
             if(priority == 100){
-                binding.textPir.visibility = View.GONE
+                binding.textPir.text = "우선순위 : 미정"
             }
             else{
                 binding.textPir.text = "우선순위 : ${priority}"
+            }
+            binding.root.setOnClickListener{
+                val intent = Intent(context, TaskActivity::class.java)
+                intent.putExtra("myid", TaskList[adapterPosition].myid)
+                intent.putExtra("parentid", TaskList[adapterPosition].parentid)
+                context.startActivity(intent)
+            }
+
+            binding.root.setOnLongClickListener {
+                val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogTheme))
+                builder.setTitle("작업을 삭제하시겠습니까?")
+                builder.setPositiveButton("삭제") { dialog, which ->
+                    if (user != null){
+                        val userId = user.uid
+                        val documentId = TaskList[adapterPosition].parentid
+                        val myid = TaskList[adapterPosition].myid
+
+                        db.collection(userId).document(documentId).collection("task list").document(myid)
+                            .delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(activity, "작업이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { exception ->
+                                Toast.makeText(activity, "작업이 삭제되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    TaskList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                }
+                builder.setNegativeButton("취소") { dialog, which ->
+                }
+                val dialog = builder.create()
+                dialog.show()
+                false
             }
         }
     }

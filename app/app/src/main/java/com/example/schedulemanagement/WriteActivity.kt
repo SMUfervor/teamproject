@@ -200,6 +200,7 @@ class WriteActivity : AppCompatActivity() {
                     intent.putExtra("Pri", P)
                 }
                 title = viewBinding.tasktitle.text.toString()
+                detail = viewBinding.editDetail.text.toString()
                 intent.putExtra("title", title)
                 intent.putExtra("detail", detail)
                 intent.putExtra("Alarm", Alram)
