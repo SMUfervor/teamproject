@@ -34,14 +34,32 @@ class MainAdapter(
                     if (user != null){
                         val userId = user.uid
                         val documentId = MainList[adapterPosition].ID
-                        db.collection(userId)
-                            .document(documentId)
-                            .delete()
-                            .addOnSuccessListener {
-                                Toast.makeText(activity, "목록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        val parentDocumentRef = db.collection(userId).document(documentId)
+
+                        parentDocumentRef.collection("task list")
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                val batch = db.batch()
+                                for (document in querySnapshot) {
+                                    val childDocRef = parentDocumentRef.collection("task list").document(document.id)
+                                    batch.delete(childDocRef)
+                                }
+                                batch.commit()
+                                    .addOnSuccessListener {
+                                        parentDocumentRef.delete()
+                                            .addOnSuccessListener {
+                                                Toast.makeText(activity, "목록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                                            }
+                                            .addOnFailureListener { exception ->
+                                                Toast.makeText(activity, "목록이 삭제되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Toast.makeText(activity, "자식 컬렉션 문서 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                                    }
                             }
                             .addOnFailureListener { exception ->
-                                Toast.makeText(activity, "목록이 삭제되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity, "자식 컬렉션 문서를 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
                             }
                     }
                     MainList.removeAt(adapterPosition)

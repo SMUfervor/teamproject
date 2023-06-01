@@ -1,10 +1,13 @@
 package com.example.schedulemanagement
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -31,6 +34,8 @@ class ListActivity : AppCompatActivity(){
     private var myDataSet = mutableListOf<TaskList>()
     private val db = FirebaseFirestore.getInstance()
     private val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
+    private var alarmManager: AlarmManager? = null
+    private var alarmId = ""
 
     private val startListActivityForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -79,7 +84,9 @@ class ListActivity : AppCompatActivity(){
                         parentDocument.collection("task list")
                             .document(documentId)
                             .set(newList)
+                        alarmId = newList.myid
                         myDataSet.add(newList)
+                        if(Al == true){setAlarm(alarmId)}
                         if(sortstate.getString("check_sort_${ID}", "우선순위") == "우선순위"){
                             myDataSet.sortBy { it.priority }
                             recyclerView.adapter?.notifyDataSetChanged()
@@ -115,7 +122,6 @@ class ListActivity : AppCompatActivity(){
         val intent = intent
         if (intent != null) {
             ID = intent.getStringExtra("id").toString()
-            // 나머지 코드 실행
         }
 
         loadData(user!!.uid)
@@ -182,5 +188,22 @@ class ListActivity : AppCompatActivity(){
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun setAlarm(childId : String) {
+        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val requestcode = alarmId.hashCode()
+        val receiverIntent = Intent(this, AlarmReceiver::class.java).apply {
+            putExtra("childId", childId)
+            putExtra("parentId", ID)
+        }
+        Log.d("childId", childId)
+        val pendingIntent = PendingIntent.getBroadcast(this, requestcode, receiverIntent, 0)
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            time = Alarmdate
+        }
+
+        alarmManager?.set(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
     }
 }
