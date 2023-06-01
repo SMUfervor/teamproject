@@ -5,6 +5,10 @@
     <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorPrimary">#0000FF</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#000000</item>
+    </style>
     <style name="Theme.ScheduleManagement" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#ffffff</item> <!--제목 배경색 변경-->

@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="title"
+        android:hint="title"
         android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_title">
 
@@ -34,10 +36,11 @@
             android:id="@+id/task_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="세부내용"
             android:inputType="textMultiLine"
-            android:text="세부내용"
             android:padding="12dp"
             android:textColor="#000000"
+            android:textColorHint="#FFFFFF"
             android:textSize="20sp" />
     </ScrollView>
 
@@ -47,8 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="우선순위 : 미정"
+        android:hint="우선순위 "
         android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
@@ -59,8 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="마감일 : 2023.06.30.00"
+        android:hint="마감일"
         android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_priority" />
 
@@ -70,8 +75,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="알림일 : 2023.06.30.00"
+        android:hint="알림일"
         android:textColor="#000000"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_deadline" />
 

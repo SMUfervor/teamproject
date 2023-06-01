@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.schedulemanagement.databinding.ActivityMainBinding
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        viewBinding.mainRv.addItemDecoration(dividerItemDecoration)
 
         recyclerView = viewBinding.mainRv
         recyclerView.layoutManager =
@@ -87,10 +92,11 @@ class MainActivity : AppCompatActivity() {
                 for (document in querySnapshot) {
                     val title = document.getString("title")
                     val id = document.id
-                    val timestamp = document.getDate("currentTime")
+                    val timestamp = document.getDate("date")
                     val newList = MainList(title.toString(), id, timestamp)
                     myDataSet.add(newList)
                 }
+                myDataSet.sortBy { it.date }
                 recyclerView.adapter?.notifyDataSetChanged()
             }
     }
