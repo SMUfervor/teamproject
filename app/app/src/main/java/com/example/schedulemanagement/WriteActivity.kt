@@ -8,10 +8,15 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import com.example.schedulemanagement.databinding.ActivityWriteBinding
 import java.text.SimpleDateFormat
+import java.util.*
 
 class WriteActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivityWriteBinding
+    private val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
+    private val today = Date()
+    private var alarmString = ""
+    private var deadlineString = ""
     private var Alram : Boolean = false
     private var DL : Boolean = false
     private var Pri : Boolean = false
@@ -168,32 +173,42 @@ class WriteActivity : AppCompatActivity() {
         }
 
         viewBinding.btnAlarmOK.setOnClickListener {
-            Alram = true
-            AlramGone()
-            textInvisible()
-            viewBinding.btnAlarm.alpha = 0.5f
-            viewBinding.btnAlarmX.visibility = View.GONE
-            viewBinding.btnAlarmOK.visibility = View.GONE
+            alarmString = "${Ay}.${Am}.${Ad}.${Ah}"
+            val alarmday = dateFormat.parse(alarmString)
+            if(alarmday < today){
+                Toast.makeText(this, "올바르지 않은 날짜입니다.\n날짜를 다시 설정해주세요.", Toast.LENGTH_SHORT).show()
+            }else{
+                Alram = true
+                AlramGone()
+                textInvisible()
+                viewBinding.btnAlarm.alpha = 0.5f
+                viewBinding.btnAlarmX.visibility = View.GONE
+                viewBinding.btnAlarmOK.visibility = View.GONE
+            }
         }
 
         viewBinding.btnDeadlineOK.setOnClickListener {
-            DL = true
-            DeadlineGone()
-            textInvisible()
-            viewBinding.btnDeadline.alpha = 0.5f
-            viewBinding.btnDeadlineX.visibility = View.GONE
-            viewBinding.btnDeadlineOK.visibility = View.GONE
+            deadlineString = "${Dy}.${Dm}.${Dd}.${Dh}"
+            val deadlineday = dateFormat.parse(deadlineString)
+            if(deadlineday < today){
+                Toast.makeText(this, "올바르지 않은 날짜입니다.\n날짜를 다시 설정해주세요.", Toast.LENGTH_SHORT).show()
+            }else{
+                DL = true
+                DeadlineGone()
+                textInvisible()
+                viewBinding.btnDeadline.alpha = 0.5f
+                viewBinding.btnDeadlineX.visibility = View.GONE
+                viewBinding.btnDeadlineOK.visibility = View.GONE
+            }
         }
 
         viewBinding.btnPluse.setOnClickListener {
             if (!viewBinding.tasktitle.text.toString().isNullOrBlank()) {
                 val intent = Intent(this, ListActivity::class.java)
                 if(DL) {
-                    val deadlineString = "${Dy}.${Dm}.${Dd}.${Dh}"
                     intent.putExtra("deadlineString", deadlineString)
                 }
                 if(Alram){
-                    val alarmString = "${Ay}.${Am}.${Ad}.${Ah}"
                     intent.putExtra("alarmString", alarmString)
                 }
                 if(Pri){

@@ -17,4 +17,9 @@
         android:title="완료 작업 보기"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/all_task"
+        android:title="모든 작업 보기"
+        app:showAsAction="never"/>
+
 </menu>

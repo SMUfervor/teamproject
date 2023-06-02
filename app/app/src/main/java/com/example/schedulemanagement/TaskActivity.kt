@@ -74,62 +74,6 @@ class TaskActivity : AppCompatActivity() {
         when(item.itemId) {
             R.id.retask -> {
                 return true
-            }
-            R.id.complete -> {
-                db.collection(userId).document(parentId)
-                    .collection("task list")
-                    .document(myId)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            state = document.getString("complete").toString()
-                        }
-                    }
-                if(state == "미완료") {
-                    val updates = hashMapOf<String, Any>("complete" to "완료")
-
-                    db.collection(userId).document(parentId)
-                        .collection("task list")
-                        .document(myId)
-                        .update(updates)
-                        .addOnSuccessListener {
-                            Toast.makeText(applicationContext, "작업이 완료처리 되었습니다.", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener { e ->
-                            Log.d("task", "${e}")
-                        }
-                }else{
-                    Toast.makeText(applicationContext, "완료처리된 작업입니다.", Toast.LENGTH_SHORT).show()
-                }
-                return true
-            }
-            R.id.no_complete -> {
-                db.collection(userId).document(parentId)
-                    .collection("task list")
-                    .document(myId)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document.exists()) {
-                            state = document.getString("complete").toString()
-                        }
-                    }
-                if(state == "완료") {
-                    val updates = hashMapOf<String, Any>("complete" to "미완료")
-
-                    db.collection(userId).document(parentId)
-                        .collection("task list")
-                        .document(myId)
-                        .update(updates)
-                        .addOnSuccessListener {
-                            Toast.makeText(applicationContext, "작업의 완료처리가 취소 되었습니다.", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener { e ->
-                            Log.d("task", "${e}")
-                        }
-                }else{
-                    Toast.makeText(applicationContext, "아직 완료되지 않은 작업입니다.", Toast.LENGTH_SHORT).show()
-                }
-                return true
             }else -> return super.onOptionsItemSelected(item)
         }
     }

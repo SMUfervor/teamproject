@@ -4,16 +4,6 @@
 
     <item
         android:id="@+id/retask"
-        android:title="편집하기"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/complete"
-        android:title="완료"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/no_complete"
-        android:title="완료 취소"
-        app:showAsAction="never"/>
+        android:title="편집"
+        app:showAsAction="always"/>
 </menu>

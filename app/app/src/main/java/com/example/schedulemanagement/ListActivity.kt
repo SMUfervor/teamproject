@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -36,6 +37,7 @@ class ListActivity : AppCompatActivity(){
     private val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
     private var alarmManager: AlarmManager? = null
     private var alarmId = ""
+    private var taskscreen = "전체"
 
     private val startListActivityForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -183,7 +185,23 @@ class ListActivity : AppCompatActivity(){
                 return true
             }
             R.id.complete_task -> {
-                // 완료 작업 보기를 선택한 경우의 동작 처리
+                taskscreen = "완료"
+                (recyclerView.adapter as? ListAdapter)?.setTaskscreen(taskscreen)
+                myDataSet.removeIf { task ->
+                    task.complete != "완료"
+                }
+                viewBinding.btnTask.visibility = View.GONE
+                recyclerView.adapter?.notifyDataSetChanged()
+                return true
+            }
+            R.id.all_task -> {
+                taskscreen = "전체"
+                (recyclerView.adapter as? ListAdapter)?.setTaskscreen(taskscreen)
+                if(user != null) {
+                    myDataSet.clear()
+                    loadData(user.uid)
+                }
+                viewBinding.btnTask.visibility = View.VISIBLE
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
