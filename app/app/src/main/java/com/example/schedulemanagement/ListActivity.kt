@@ -55,8 +55,8 @@ class ListActivity : AppCompatActivity(){
             val myId = data?.getStringExtra("myId")
 
             if(Al == true){
-                setAlarm(myId!!)
                 Alarmdate = dateFormat.parse(AlarmString)
+                setAlarm(myId!!)
             }else{
                 Alarmdate = dateFormat.parse("2200.12.31.00")
             }
