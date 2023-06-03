@@ -14,7 +14,6 @@ import com.example.schedulemanagement.databinding.TasklistBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
-import java.util.concurrent.TimeUnit
 
 class ListAdapter (private val TaskList : MutableList<com.example.schedulemanagement.TaskList>,
                    private val activity: ListActivity,
@@ -25,6 +24,7 @@ class ListAdapter (private val TaskList : MutableList<com.example.schedulemanage
     private val user = FirebaseAuth.getInstance().currentUser
     private val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
     private var taskscreen = "전체"
+
     fun setTaskscreen(newTaskscreen: String) {
         taskscreen = newTaskscreen
         notifyDataSetChanged()
@@ -109,7 +109,7 @@ class ListAdapter (private val TaskList : MutableList<com.example.schedulemanage
 
             binding.root.setOnLongClickListener {
                 val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogTheme))
-                builder.setTitle("작업을 삭제하시겠습니까?")
+                builder.setTitle("원하시는 작업을 선택하세요.")
                 builder.setPositiveButton("삭제") { dialog, which ->
                     if (user != null){
                         val userId = user.uid
@@ -128,7 +128,17 @@ class ListAdapter (private val TaskList : MutableList<com.example.schedulemanage
                     TaskList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)
                 }
-                builder.setNegativeButton("취소") { dialog, which ->
+                builder.setNegativeButton("편집") { dialog, which ->
+                    val position = adapterPosition
+                    val intent = Intent(context, WriteActivity::class.java)
+                    intent.putExtra("parentId", list.parentid)
+                    intent.putExtra("myId", list.myid)
+                    intent.putExtra("retask", true)
+                    intent.putExtra("position", position)
+                    intent.putExtra("complete", list.complete)
+                    (itemView.context as? ListActivity)?.startTaskActivityForResult?.launch(intent)
+                }
+                builder.setNeutralButton("취소") { dialog, which ->
                 }
                 val dialog = builder.create()
                 dialog.show()

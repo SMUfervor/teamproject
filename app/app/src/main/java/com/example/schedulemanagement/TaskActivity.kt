@@ -2,15 +2,10 @@ package com.example.schedulemanagement
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import com.example.schedulemanagement.databinding.ActivityTaskBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
-import java.util.*
 
 class TaskActivity : AppCompatActivity() {
 
@@ -21,7 +16,6 @@ class TaskActivity : AppCompatActivity() {
     private var myId = ""
     private var parentId = ""
     private var userId = ""
-    private var state = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,18 +57,5 @@ class TaskActivity : AppCompatActivity() {
                     }
                 }
             }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.task_item, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.retask -> {
-                return true
-            }else -> return super.onOptionsItemSelected(item)
-        }
     }
 }

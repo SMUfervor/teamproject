@@ -25,8 +25,8 @@ class AlarmService : Service() {
     private var ttitle = ""
     private var ltitle = ""
 
-    private var CHANNEL_ID = ""
-    private var CHANNEL_NAME = "작업 알림"
+    private var CHANNEL_ID = "Schedule"
+    private var CHANNEL_NAME = "알림"
 
     private val STOP_SERVICE_ACTION = "STOP_SERVICE"
 
@@ -41,8 +41,6 @@ class AlarmService : Service() {
 
         parentId = intent?.getStringExtra("parentId").toString()
         childId = intent?.getStringExtra("childId").toString()
-        CHANNEL_ID = childId
-        CHANNEL_NAME = childId
         builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(

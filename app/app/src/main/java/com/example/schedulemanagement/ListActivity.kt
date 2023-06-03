@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -38,6 +37,47 @@ class ListActivity : AppCompatActivity(){
     private var alarmManager: AlarmManager? = null
     private var alarmId = ""
     private var taskscreen = "전체"
+
+    val startTaskActivityForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data = result.data
+            val title = data?.getStringExtra("title")
+            var detail = ""
+            detail = data?.getStringExtra("detail").toString()
+            val Al = data?.getBooleanExtra("Alarm", false)
+            val Priority = data?.getIntExtra("Pri", 0) ?: 0
+            val AlarmString = data?.getStringExtra("alarmString").toString()
+            val DeadlineString = data?.getStringExtra("deadlineString").toString()
+            val Deaddate = dateFormat.parse(DeadlineString)
+            val parentId = data?.getStringExtra("parentId")
+            val myId = data?.getStringExtra("myId")
+
+            if(Al == true){
+                setAlarm(myId!!)
+                Alarmdate = dateFormat.parse(AlarmString)
+            }else{
+                Alarmdate = dateFormat.parse("2200.12.31.00")
+            }
+            if(AlarmString != "2200.12.31.00" && Al == false){cancelAlarm(myId!!)}
+
+            val updates = hashMapOf<String, Any>(
+                "title" to title!!,
+                "detail" to detail,
+                "alarm" to Alarmdate,
+                "deadline" to Deaddate,
+                "priority" to Priority
+            )
+
+            if (user != null) {
+                db.collection(user.uid).document(parentId!!).collection("task list")
+                    .document(myId!!)
+                    .update(updates)
+                loadData(user.uid)
+            }
+        }
+    }
 
     private val startListActivityForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -215,7 +255,6 @@ class ListActivity : AppCompatActivity(){
             putExtra("childId", childId)
             putExtra("parentId", ID)
         }
-        Log.d("childId", childId)
         val pendingIntent = PendingIntent.getBroadcast(this, requestcode, receiverIntent, 0)
 
         val calendar: Calendar = Calendar.getInstance().apply {
@@ -223,5 +262,14 @@ class ListActivity : AppCompatActivity(){
         }
 
         alarmManager?.set(AlarmManager.RTC, calendar.timeInMillis, pendingIntent)
+    }
+    private fun cancelAlarm(childId: String) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val requestcode = childId.hashCode()
+        val receiverIntent = Intent(this, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, requestcode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.cancel(pendingIntent)
+        pendingIntent.cancel()
     }
 }

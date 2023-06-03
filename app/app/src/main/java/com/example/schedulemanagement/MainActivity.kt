@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity() {
             loadData(userId)
         }
     }
-
     private fun loadData(userId : String) {
         db.collection(userId)
             .get()
@@ -98,7 +97,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 myDataSet.sortBy { it.date }
                 recyclerView.adapter?.notifyDataSetChanged()
-            }
+
+                                 }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.logoutmenu, menu)
