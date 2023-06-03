@@ -1,5 +1,7 @@
 package com.example.schedulemanagement
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -30,6 +32,15 @@ class ListAdapter (private val TaskList : MutableList<com.example.schedulemanage
         notifyDataSetChanged()
     }
     inner class viewHolder(private val binding: TasklistBinding) : RecyclerView.ViewHolder(binding.root){
+        private fun cancelAlarm(childId: String) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val requestcode = childId.hashCode()
+            val receiverIntent = Intent(context, AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, requestcode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            alarmManager.cancel(pendingIntent)
+            pendingIntent.cancel()
+        }
 
         fun bind(list : com.example.schedulemanagement.TaskList){
             val priority = list.priority
@@ -115,6 +126,11 @@ class ListAdapter (private val TaskList : MutableList<com.example.schedulemanage
                         val userId = user.uid
                         val documentId = TaskList[adapterPosition].parentid
                         val myid = TaskList[adapterPosition].myid
+                        val alarmstring = dateFormat.format(TaskList[adapterPosition].alarm)
+
+                        if(alarmstring != "2200.12.31.00") {
+                            cancelAlarm(myid)
+                        }
 
                         db.collection(userId).document(documentId).collection("task list").document(myid)
                             .delete()
