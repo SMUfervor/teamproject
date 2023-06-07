@@ -1,5 +1,7 @@
 package com.example.schedulemanagement
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.view.ContextThemeWrapper
@@ -12,6 +14,7 @@ import com.example.schedulemanagement.MainAdapter.viewHolder
 import com.example.schedulemanagement.databinding.MainlistBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
 
 class MainAdapter(
     private val MainList: MutableList<com.example.schedulemanagement.MainList>,
@@ -23,6 +26,15 @@ class MainAdapter(
     private val user = FirebaseAuth.getInstance().currentUser
 
     inner class viewHolder(private val binding: MainlistBinding) : RecyclerView.ViewHolder(binding.root){
+        private fun cancelAlarm(childId: String) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val requestcode = childId.hashCode()
+            val receiverIntent = Intent(context, AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, requestcode, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            alarmManager.cancel(pendingIntent)
+            pendingIntent.cancel()
+        }
         fun bind(list : com.example.schedulemanagement.MainList){
             binding.mainTitle.text = list.title
 
@@ -41,6 +53,12 @@ class MainAdapter(
                                 val batch = db.batch()
                                 for (document in querySnapshot) {
                                     val childDocRef = parentDocumentRef.collection("task list").document(document.id)
+                                    val alarmday = document.getTimestamp("alarm")?.toDate()
+                                    val dateFormat = SimpleDateFormat("yyyy.MM.dd.HH")
+                                    val alarm = dateFormat.format(alarmday)
+                                    if(alarm != "2200.12.31.00"){
+                                        cancelAlarm(document.id)
+                                    }
                                     batch.delete(childDocRef)
                                 }
                                 batch.commit()

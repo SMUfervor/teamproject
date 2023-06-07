@@ -56,14 +56,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signUpWithEmailAndPassword(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    sendEmailVerification()
-                } else {
-                    // 사용자 계정 생성 실패
+        if (isEmailValid(email)) {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        sendEmailVerification()
+                    } else {
+
+                    }
                 }
-            }
+        } else {
+            Toast.makeText(this, "유효하지 않은 이메일 형식입니다.", Toast.LENGTH_SHORT).show()
+        }
     }
     private fun sendEmailVerification() {
         val user = auth.currentUser
@@ -101,5 +105,10 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "이메일과 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun isEmailValid(email: String): Boolean {
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        return email.matches(emailPattern.toRegex())
     }
 }
