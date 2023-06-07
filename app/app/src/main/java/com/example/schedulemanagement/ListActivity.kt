@@ -76,6 +76,7 @@ class ListActivity : AppCompatActivity(){
                     .update(updates)
                 loadData(user.uid)
             }
+            Toast.makeText(this, "편집이 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
