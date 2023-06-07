@@ -3,9 +3,12 @@ package com.example.schedulemanagement
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.ContextThemeWrapper
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import com.example.schedulemanagement.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -51,7 +54,18 @@ class LoginActivity : AppCompatActivity() {
             val email = viewBinding.editEmail.text.toString()
             val password = viewBinding.editPwd.text.toString()
 
-            signUpWithEmailAndPassword(email, password)
+            if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
+                builder.setTitle("회원가입 방법")
+                builder.setMessage("가입하실 이메일과 비밀번호를 적고 다시 회원가입 버튼을 눌러주세요")
+                builder.setPositiveButton("확인") { dialog, _ ->
+                    dialog.dismiss() // 대화상자 닫기
+                }
+                val dialog = builder.create()
+                dialog.show()
+            }else {
+                signUpWithEmailAndPassword(email, password)
+            }
         }
     }
 
